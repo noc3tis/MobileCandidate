@@ -48,7 +48,19 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.8.0")
 
+    implementation("androidx.compose.material:material-icons-extended")
+
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.compose.material:material-icons-extended-android:1.7.8")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.google.accompanist:accompanist-pager:0.32.0") // Opcional, pero ayuda con indicadores si quisieras
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -62,4 +74,12 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.navigation:navigation-compose:2.8.0")
+        force("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+        force("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    }
 }

@@ -11,37 +11,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.mobilecandidate_adrian_rios.navigation.NavManager
 import com.example.mobilecandidate_adrian_rios.ui.theme.MobileCandidate_Adrian_RiosTheme
+import com.example.mobilecandidate_adrian_rios.viewModel.UsersViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        val viewModel = UsersViewModel()
+
         setContent {
-            MobileCandidate_Adrian_RiosTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            NavManager(viewModel)
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MobileCandidate_Adrian_RiosTheme {
-        Greeting("Android")
-    }
-}

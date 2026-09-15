@@ -5,6 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mobilecandidate_adrian_rios.viewModel.UsersViewModel
+import com.example.mobilecandidate_adrian_rios.views.HomeView
+import com.example.mobilecandidate_adrian_rios.views.OnBoardingView
 import com.example.mobilecandidate_adrian_rios.views.SplashScreen
 
 
@@ -14,8 +16,17 @@ fun NavManager(viewModel: UsersViewModel) {
 
     NavHost(navController = navController, startDestination = "Splash") {
 
+
         composable("Splash") {
             SplashScreen(navController)
+        }
+
+        composable("OnBoarding") {
+            OnBoardingView(navController)
+        }
+
+        composable("Home") {
+            HomeView(navController, viewModel)
         }
     }
 }
