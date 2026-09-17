@@ -34,32 +34,63 @@ import androidx.navigation.NavController
 import com.example.mobilecandidate_adrian_rios.data.StoreBoarding
 import kotlinx.coroutines.launch
 
+/*
+ * Pantalla de introducción de la aplicación.
+ */
 @Composable
 fun OnBoardingView(navController: NavController) {
+
     val context = LocalContext.current
+
+    /*
+     * Scope utilizado para ejecutar la operación suspendida
+     * de DataStore.
+     */
     val scope = rememberCoroutineScope()
+
     val dataStore = StoreBoarding(context)
 
-    // Datos de las paginas (Título, Descripción)
+    /*
+     * Información de las páginas del OnBoarding.
+     */
     val pages = listOf(
-        Pair("Bienvenido", "Conoce a gente de todo el mundo."),
-        Pair("Detalles", "Consulta su información para poder contactarlos facilmente.")
+
+        Pair(
+            "Bienvenido",
+            "Conoce a gente de todo el mundo."
+        ),
+
+        Pair(
+            "Detalles",
+            "Consulta su información para poder contactarlos fácilmente."
+        )
     )
 
-    var currentPage by remember { mutableStateOf(0) }
+    /*
+     * Página actualmente mostrada.
+     */
+    var currentPage by remember {
+        mutableStateOf(0)
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(32.dp),
+
         horizontalAlignment = Alignment.CenterHorizontally,
+
         verticalArrangement = Arrangement.Center
     ) {
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
 
-        // TÍTULO
+        /*
+         * Título de la página.
+         */
         Text(
             text = pages[currentPage].first,
             fontSize = 32.sp,
@@ -67,11 +98,13 @@ fun OnBoardingView(navController: NavController) {
             color = Color(0xFF1976D2)
         )
 
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
 
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // DESCRIPCIÓN
+        /*
+         * Descripción.
+         */
         Text(
             text = pages[currentPage].second,
             textAlign = TextAlign.Center,
@@ -79,45 +112,91 @@ fun OnBoardingView(navController: NavController) {
             color = Color.Gray
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
 
-        // INDICADORES (Puntitos)
+        /*
+         * Indicadores de página.
+         */
         Row {
+
             repeat(pages.size) { index ->
+
                 Box(
                     modifier = Modifier
                         .padding(4.dp)
                         .size(12.dp)
                         .background(
-                            color = if (index == currentPage) Color(0xFF1976D2) else Color.LightGray,
+
+                            color =
+                                if (index == currentPage)
+                                    Color(0xFF1976D2)
+                                else
+                                    Color.LightGray,
+
                             shape = CircleShape
                         )
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
 
+        /*
+         * Botón para avanzar.
+         */
         Button(
+
             onClick = {
+
                 if (currentPage < pages.size - 1) {
+
+                    /*
+                     * Avanza a la siguiente página.
+                     */
                     currentPage++
+
                 } else {
+
+                    /*
+                     * El usuario terminó el OnBoarding.
+                     */
                     scope.launch {
+
                         dataStore.saveBoarding(true)
+
+                        /*
+                         * Se navega a Home y se elimina
+                         * el OnBoarding del historial.
+                         */
                         navController.navigate("Home") {
-                            popUpTo("OnBoarding") { inclusive = true }
+
+                            popUpTo("OnBoarding") {
+                                inclusive = true
+                            }
                         }
                     }
                 }
             },
+
             modifier = Modifier.fillMaxWidth(),
+
             shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF1976D2)
+            )
         ) {
+
             if (currentPage < pages.size - 1) {
+
                 Text("Siguiente")
+
             } else {
+
                 Text("Comenzar")
             }
         }
